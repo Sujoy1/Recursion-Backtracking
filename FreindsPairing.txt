@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+void solve(int& sl,int n,int curr,vector<bool>& used,string ans){
+    
+    if(curr==(n+1)){
+        cout<<sl<<"."<<ans<<endl;
+        sl++;
+        return;
+    }
+    if(used[curr]){
+        
+        // some one on the left has already used the curr th freind
+        
+        solve(sl,n,curr+1,used,ans);
+        
+    }
+    else{
+        
+        //  go single 
+        used[curr]=true;
+       
+        solve(sl,n,curr+1,used,ans+"("+to_string(curr)+") ");
+        
+        
+        // form pair with somebody on the right : so as to duplicate pairs
+        
+        for(int i=curr+1;i<=n;i++){
+            if(!used[i]){
+                 used[i]=true;
+            solve(sl,n,curr+1,used,ans+"("+to_string(curr)+","+to_string(i)+") ");
+            used[i]=false;
+            }
+           
+        }
+        
+        used[curr]=false;
+    }
+}
+
+
+int main(){
+    
+    int n,sl=1;
+    cin>>n;
+    
+    vector<bool> used;
+    string ans="";
+    used.assign(n+1,false);
+    solve(sl,n,1,used,ans);
+}

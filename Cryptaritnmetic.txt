@@ -1,0 +1,93 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int getNum(string t,unordered_map<char,int> dp){
+    
+    int ans=0;
+    for(int i=0;i<t.length();i++){
+        ans =(ans*10)+dp[t[i]];
+        
+        return ans;
+     
+}
+
+void display(unordered_map<char,int> dp){
+    
+    for(auto ele:dp)
+    cout<<ele.first<<"-"<<ele.second<<" ";
+    cout<<endl;
+    
+    return;
+}
+
+void Solve(string a,string b,string c,string str,int pos,unordered_map<char,int>& dp,vector<int>& used){
+    
+    if(pos==str.length()){
+        
+        
+        // check for a possible solution
+        
+        int an = getNum(a,dp);
+        int bn = getNum(a,dp);
+        int cn = getNum(a,dp);
+        
+        if(an+bn==cn)
+        display(dp);
+        
+        
+        // end
+        
+        return;
+    }
+    
+    if(dp.find(str[pos])!=dp.end())
+    Solve(a,b,c,str,pos+1,dp);
+    
+    
+    
+    
+    for(int i=0;i<=9;i++0){
+        
+        if(!used[str[pos]-'a']){
+            used[str[pos]-'a']=true;
+             dp[str[pos]]=i;
+        Solve(a,b,c,str,pos+1,dp);
+         dp.erase(dp.find(str[pos]));
+            used[str[pos]-'a']=true;
+        }
+        dp[str[pos]]=i;
+        Solve(a,b,c,str,pos+1,dp);
+        
+    }
+}
+
+int main(){
+    
+    
+    string a,b,c;
+    
+    cin>>a>>b>>c;
+    unordered_map<char,int> dp;
+    set<char> s;
+    vector<int> used;
+    used.assign(26,-1);
+    
+    string str="";
+    
+    for(int i=0;i<a.length();i++){
+        if(s.find(a[i])==s.end())
+        str += a[i];
+    }
+    
+    for(int i=0;i<b.length();i++){
+        if(s.find(b[i])==s.end())
+        str += b[i];
+    }
+    
+    for(int i=0;i<b.length();i++){
+        if(s.find(b[i])==s.end())
+        str += b[i];
+    }
+    
+    Solve(a,b,c,str,0,dp,used);
+}

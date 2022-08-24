@@ -1,0 +1,51 @@
+void solve(int n,int curr,vector<int> a,vector<int> b,int arr[],bool& ans){
+        if(curr==n){
+            
+             if(accumulate(a.begin(), a.end(), 0)==accumulate(b.begin(), b.end(), 0))
+             ans=true;
+             
+             return;
+        }
+        
+                vector<int>::iterator it;
+        if(a.size()<(n+1)/2){
+        it = a.begin();
+    
+        a.push_back(arr[curr]);
+        solve(n,curr+1,a,b,arr,ans);
+        it = a.end();
+        it--;
+        
+        a.erase(it);
+        }
+        
+         if(b.size()<(n+1)/2){
+        it = b.begin();
+        
+        
+        b.push_back(arr[curr]);
+        solve(n,curr+1,a,b,arr,ans);
+        it = b.end();
+        it--;
+        
+        b.erase(it);
+         }
+        
+        return;
+        
+        
+    }
+    int equalPartition(int N, int arr[])
+    {
+        // code here
+        vector<int> a;
+        vector<int> b;
+        
+        bool ans = false;
+        
+        solve(N,0,a,b,arr,ans);
+        
+        if(ans)
+        return 1;
+        return 0;
+    }

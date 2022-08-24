@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+void solve(int n,int curr,int row,int col,string asf){
+    
+    if(row==n){
+        if(curr==n)
+        cout<<asf<<endl;
+        return;
+    }
+    
+    int nr,nc;
+    
+    string yasf,nasf;
+    
+    if(col==n-1){
+        
+        nr =row+1;
+        nc=0;
+        yasf = asf + "q\n";
+        nasf = asf + "-\n";
+        
+    }
+    else{
+        
+        nr =row;
+        nc = col +1;
+          yasf = asf + "q";
+        nasf = asf + "-";
+    }
+    
+    
+    //  yes call
+    solve(n,curr+1,nr,nc,yasf);
+    
+    // no call
+    solve(n,curr,nr,nc,nasf);
+}
+
+
+
+int main(){
+    
+    int n;
+    cin>>n;
+    
+    solve(n,0,0,0,"");
+}

@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void generate(string str,string ans,int count,int pos){
+    
+    if(pos==str.length()){
+        if(count==0)
+        cout<<ans<<endl;
+        else
+        cout<<ans+to_string(count)<<endl;
+        return;
+    }
+    if(count!=0)
+    generate(str,ans+to_string(count)+str[pos],0,pos+1);
+    else
+    generate(str,ans+str[pos],0,pos+1);
+    
+    generate(str,ans,count+1,pos+1);
+    
+    
+}
+
+int main(){
+    
+    string str;
+    cin>>str;
+    
+    generate(str,"",0,0);
+    
+    return 0;
+}

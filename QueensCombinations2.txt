@@ -1,0 +1,60 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+void solve(vector<vector<bool>> m,int n,int curr,int i,int j){
+    
+    
+        if(curr==n)
+        {
+            for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++){
+                if(m[i][j]==true)
+                cout<<"q\t";
+                else
+                cout<<"-\t";
+            }
+            cout<<endl;
+            }
+            cout<<endl;
+            return;
+        }
+        
+    
+       // Remaining Columns of the curr row
+       
+       for(int col=j+1;col<n;col++)
+       {
+           m[i][col]=true;
+           solve(m,n,curr+1,i,col);
+           m[i][col]=false;
+       }
+       
+       // Remaing cells from next row
+       
+       for(int row = i+1;row<n;row++){
+          for(int col=0;col<n;col++)
+       {
+           m[row][col]=true;
+           solve(m,n,curr+1,row,col);
+           m[row][col]=false;
+       }
+        
+       }
+       
+}
+
+
+
+int main(){
+    
+    int n;
+    cin>>n;
+    
+    vector<bool> v;
+    v.assign(n,false);
+    vector<vector<bool>> m;
+    m.assign(n,v);
+    
+    solve(m,n,0,0,-1);
+}

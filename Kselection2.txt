@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void solve(string s,int curr,int k,string asf){
+    
+        if(k==0)
+        {
+        cout<<asf<<endl;
+        return;
+        }
+    
+    
+    // if(k>0){
+    //     solve(s,curr+1,k-1,asf+s[curr]);
+    // }
+    //     solve(s,curr+1,k,asf);
+    
+    for(int i=curr+1;i<s.length();i++)
+    solve(s,i,k-1,asf+s[i]);
+    
+}
+
+int main(){
+    
+    string str;
+    int k;
+    
+    cin>>str>>k;
+    
+    set<char> st;
+    
+    string s="";
+    
+    for(int i=0;i<str.length();i++){
+        st.insert(str[i]);
+    }
+    
+    
+    for(auto ele:st)
+    s += ele;
+
+
+    solve(s,-1,k,"");
+    
+    return 0;
+}

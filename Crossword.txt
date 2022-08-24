@@ -1,0 +1,170 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+
+bool canplacevertically(string word,vector<vector<string>>& v,int row,int col){
+    
+    // check start : should be +
+    if(row>0&&v[row-1][col]!='+')
+    return false;
+    
+    
+     // check end : should be +
+    
+    if((row+word.length()<v[0].size())&&(v[row+word.length()][col]!='+'))
+    return false;
+    
+    // In between , everything should be -
+    
+    for(int i=0;i<word.length();i++){
+        if((row+i)>=v[0].size())
+        return false;
+        
+        if(word[i]=='-'||word[i]==v[row+i][col])
+        continue;
+        else
+        return false;
+    }
+    
+    return true;
+    
+}
+
+bool canplacehorizontally(string word,vector<vector<string>>& v,int row,int col){
+    
+    // check start : should be +
+    if(col>0&&v[row][col-1]!='+')
+    return false;
+    
+    
+     // check end : should be +
+    
+    if((col+word.length()<v.size())&&(v[row][col+word.length()]!='+'))
+    return false;
+    
+    // In between , everything should be -
+    
+    for(int j=0;j<word.length();j++){
+        if((col+j)>=v.size())
+        return false;
+        
+        if(word[j]=='-'||word[j]==v[row][col+j])
+        continue;
+        else
+        return false;
+    }
+    
+    return true;
+    
+}
+
+void placevertically(string word,vector<vector<int>> v,int row,int col,vector<bool>&placed){
+    
+    for(int i=0;i<word[0].length();i++){
+        if(v[row+i][col]=='-'){
+           v[row+i][col] = word[i];
+           placed[i]=true;
+        }
+    }
+}
+
+void placehorizontally(string word,vector<vector<int>> v,int row,int col,vector<bool>&placed){
+    
+    for(int j=0;j<word.length();j++){
+        if(v[row][col+j]=='-'){
+           v[row][col+j] = word[j];
+           placed[j]=true;
+        }
+    }
+}
+
+void unplaceverically(vector<vector<int>> v,int row,int col,vector<bool>&placed){
+    
+    for(int i=0;i<placed.size();i++){
+        if(placed[i]){
+            v[row+i][col]='-';
+        }
+    }
+}
+
+void unplacehorizontally(vector<vector<int>> v,int row,int col,vector<bool>&placed){
+    
+    for(int j=0;j<placed.size();j++){
+        if(placed[i]){
+            v[row][col+j]='-';
+        }
+    }
+}
+
+void display(vector<vector<string>>& v){
+    
+     for(int i=0;i<v.size();i++){
+              for(int j=0;j<v[0].size();j++){
+        cout<<v[i][j];
+    }    
+    cout<<endl;
+    }
+}
+
+void Solve(vector<int> words, vector<vector<string>>& v,int current){
+    
+    if(current==words.size()){
+        display(v);
+        return;
+    }
+    
+    string word = words[current];
+    
+     for(int i=0;i<v.size();i++){
+        for(int j=0;j<v[0].size();j++){
+            if(v[i][j]=='-'||v[i][j]==word[0]){
+                 if(canplacehorizontally(word,v,i,j)){
+            
+            vector<bool> placed; 
+            placed.assign(v.size(),false);
+            placehorizontally(word,v,i,j,placed);
+            Solve(words,v,current+1);
+            unplacehorizontally(word,v,i,j,placed);
+        }
+        if(canplacevertically(word,v,i,j)){
+            
+            vector<bool> placed ;
+            placed.assign(v[0].size(),false);
+            placevertically(word,v,i,j,placed);
+            Solve(words,v,current+1);
+            unplacevertically(word,v,i,j,placed);
+        }
+            }
+       
+    }   
+    }
+}
+
+
+
+
+int main(){
+    
+    string a = "1111111111"; 
+    vector<vector<string>> v;
+  
+    v.assign(10,a);
+    
+    
+    int  n;
+    
+    cin>>n;
+    
+    vector<int> words;
+    words.assign(n,"io");
+    
+    for(int i=0;i<n;i++)
+    cin>>words[i];
+    
+    Solve(words,v,0)
+
+    
+    return 0;
+    
+}

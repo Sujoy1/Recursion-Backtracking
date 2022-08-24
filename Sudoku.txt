@@ -1,0 +1,103 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+void display(vector<vector<int>> m){
+    
+    for(int i=0;i<m.size();i++){
+       for(int j=0;i<m[0].size();j++){
+        cout<<m[i][j]<<" ";
+    } 
+    cout<<endl;
+    }
+}
+bool isSafe(vector<vector<int>> m,int row,int col,int val){
+    
+    // check row
+    
+    for(int j=0;j<m[0].size();j++){
+        if(m[row][j]==val)
+        return false;
+    }
+    
+    // check col
+    
+     for(int i=0;i<m.size();i++){
+        if(m[i][col]==val)
+        return false;
+    }
+    
+    // check submatrix
+    
+    int cx = (row/3)*3;
+    int cy = (col/3)*3;
+    
+    for(int i=cx;i<cx+3;i++){
+        for(int j=cy;j<cy+3;j++){
+            if(m[i][j]==val)
+            return false;
+        }
+    }
+    
+    
+    
+    return true;
+}
+
+void solve(vector<vector<int>>& m,int row,int col){
+    
+    if(row==m.size()){
+        display(m);
+        
+    return;
+    }
+    
+    
+    int nextrow,nextcol;
+    
+    if(col==m[0].size()-1)
+    {
+        nextrow = row+ 1;
+        nextcol = 0;
+    }
+    else
+    {
+        nextrow=row;
+        nextcol = col+1;
+    }
+    
+    if(m[row][col]!=0)
+    {
+        solve(m,nextrow,nextcol);
+        return;
+    }
+    
+    for(int i=1;i<=9;i++){
+        if(isSafe(m,row,col,i)){
+            m[row][col]=i;
+            solve(m,nextrow,nextcol);
+            m[row][col]=0;
+        }
+    }
+}
+
+
+
+int main(){
+    
+    vector<int> v;
+    v.assign(9,-1);
+    vector<vector<int>> m;
+    m.assign(9,v);
+    
+    for(int i=0;i<9;i++){
+       for(int j=0;j<9;j++){
+        cin>>m[i][j];
+    } 
+    }
+    
+    solve(m,0,0);
+    
+    
+    return 0;
+}
