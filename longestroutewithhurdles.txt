@@ -1,0 +1,57 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define R 3
+#define C 10
+
+void findLongestPath(int mat[R][C],int x,int y,int p,int q,vector<vector<bool>>& visited,int& ans,int curr){
+    
+    if(x==p&&y==q){
+        if(ans<curr)
+        ans=curr;
+        return;
+    }
+    if(x<0||x==R||y<0||y==C)
+    return;
+    
+    if(visited[x][y])
+    return;
+    
+     if(mat[x][y]==0)
+    return;
+    
+    visited[x][y]=true;
+    
+    findLongestPath(mat,x+1,y,p,q,visited,ans,curr+1);
+    findLongestPath(mat,x-1,y,p,q,visited,ans,curr+1);
+    findLongestPath(mat,x,y+1,p,q,visited,ans,curr+1);
+    findLongestPath(mat,x,y-1,p,q,visited,ans,curr+1);
+    
+    visited[x][y]=false;
+    return;
+}
+
+int main()
+{
+
+    int mat[R][C] = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                      { 1, 1, 0, 1, 1, 0, 1, 1, 0, 1 },
+                      { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
+ 
+ 
+    vector<bool> v;
+    vector<vector<bool>> visited;
+    v.assign(C,false);
+    visited.assign(R,v);
+    
+    int ans=INT_MIN;
+    int curr=0;
+    
+    findLongestPath(mat, 0, 0, 1, 7,visited,ans,curr);
+    
+    if(ans==INT_MIN)
+    cout<<"Not reachable"<<endl;
+    else
+    cout<<"Cost needed: "<<ans<<endl;
+ 
+    return 0;
+}

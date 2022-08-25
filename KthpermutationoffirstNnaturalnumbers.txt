@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+	    void Solve(string str,set<string>& ans,string asf,set<int>& s){
+	        if(asf.length()==str.length()){
+	            ans.insert(asf);
+	            return;
+	        }
+	        
+	        for(int i=0;i<str.length();i++){
+	            if(s.find(i)==s.end()){
+	                 s.insert(i);
+	                 Solve(str,ans,asf+str[i],s);
+	                 s.erase(s.find(i));
+	            }
+	           
+	        }
+	    }
+		void find_permutation(string S,int limit,string& answer)
+		{
+		    // Code here there
+		    set<string> ans;
+		    set<int> s;
+		    Solve(S,ans,"",s);
+		    int counter=1;
+		    
+		    for(auto ele:ans)
+		    {
+		     if(counter==limit){
+		     answer=ele;
+		     break;
+		    }
+		    counter++;
+		    }
+		    
+		}
+		
+int main()
+{
+ 
+    int n = 3, k = 4;
+    string s="";
+    
+    for(int i=1;i<=n;i++)
+    s += to_string(i);
+    
+    string answer="";
+ 
+    find_permutation(s,k,answer);
+ 
+    cout << answer << endl;
+ 
+    return 0;
+}

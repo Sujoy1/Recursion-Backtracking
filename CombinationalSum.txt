@@ -1,0 +1,59 @@
+class Solution {
+  public:
+    //Function to return a list of indexes denoting the required 
+    //combinations whose sum is equal to given number.
+    
+    
+    void Solve(int n,vector<int>& a,vector<vector<int>>& ans,int curr,int sum,int k,vector<int> v){
+        
+        if(curr==n){
+            
+            if(sum==k){
+                ans.push_back(v);
+            }
+            return;
+        }
+        
+        // Yes
+        
+        int more = k-sum;
+        int times = more/a[curr];
+        
+        vector<int> temp;
+        temp = v;
+        
+        int newsum =sum;
+        
+        for(int i=0;i<times;i++){
+            temp.push_back(a[curr]);
+            newsum += a[curr];
+            Solve(n,a,ans,curr+1,newsum,k,temp);
+        }
+        
+        
+        
+        
+        // No
+        
+        Solve(n,a,ans,curr+1,sum,k,v);
+        
+    }
+    
+    vector<vector<int> > combinationSum(vector<int> &a, int k) {
+        // Your code here
+        
+       set<int> s;
+       for(auto ele:a)
+       s.insert(ele);
+       
+       vector<int> arr;
+       for(auto ele:s)
+       arr.push_back(ele);
+       
+        
+        int n=arr.size();
+       vector<vector<int>> ans;
+       vector<int> v;
+        
+        Solve(n,arr,ans,0,0,k,v);
+    }

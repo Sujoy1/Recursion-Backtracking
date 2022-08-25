@@ -1,0 +1,116 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define R 12
+#define C 10
+
+int rowNum[] = { -1, 0, 0, 1 };
+int colNum[] = { 0, -1, 1, 0 };
+
+void findShortestPath(vector<vector<int>>& mat,int i,int j,int& ans,int curr,vector<vector<bool>>& visited)
+{
+    // Out of bounds
+    if(i<0||i==R||j<0||j==C)
+    return;
+    
+    // unsafe cells or already explored cell
+    if(visited[i][j]||mat[i][j]==0||mat[i][j]==-1)
+    return;
+    
+    // reached destination
+    if(i==(R-1)){
+        ans = min(curr,ans);
+        return;
+    }
+    
+    
+    
+    
+    visited[i][j]=true;
+    
+    findShortestPath(mat,i+1,j,ans,curr+1,visited);
+    findShortestPath(mat,i,j-1,ans,curr+1,visited);
+    findShortestPath(mat,i,j+1,ans,curr+1,visited);
+    
+    
+    
+}
+
+void floodfill(vector<vector<int>>& mat,int i,int j,vector<vector<bool>>& visited){
+    
+    
+    if(i<0||i==R||j<0||j==C)
+    return;
+    
+    if(visited[i][j])
+    return;
+    
+    visited[i][j]=true;
+    
+    if(visited[i][j]==0){
+        floodfill(mat,i+1,j,visited);
+        floodfill(mat,i-1,j,visited);
+        floodfill(mat,i,j+1,visited);
+        floodfill(mat,i,j-1,visited);
+    }
+    else{
+        mat[i][j]=-1;
+    }
+}
+
+
+int main()
+{
+    // input matrix with landmines shown with number 0
+    
+    vector<vector<int>> mat;
+    vector<int> v;
+    v.assign(C,-1);
+    mat.assign(R,v);
+    
+     vector<vector<bool>> visited;
+    vector<bool> a;
+    a.assign(C,false);
+    visited.assign(R,a);
+    
+    
+    
+   mat =
+    {
+        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+        { 1, 0, 1, 1, 1, 1, 1, 1, 1, 1 },
+        { 1, 1, 1, 0, 1, 1, 1, 1, 1, 1 },
+        { 1, 1, 1, 1, 0, 1, 1, 1, 1, 1 },
+        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+        { 1, 1, 1, 1, 1, 0, 1, 1, 1, 1 },
+        { 1, 0, 1, 1, 1, 1, 1, 1, 0, 1 },
+        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+        { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1 },
+        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+        { 1, 1, 1, 0, 1, 1, 1, 1, 1, 1 }
+    };
+    
+    //mark unsafe places
+    
+    for(int i=0;i<R;i++){
+       for(int j=0;i<C;j++){
+         if(mat[i][j]==0)
+         floodfill(mat,i,j,visited);
+    }  
+    }
+    
+    
+    
+    // find shortest path
+    visited.assign(R,a);
+    int ans=0;
+    for(int j=0;j<C;j++){
+        findShortestPath(mat,0,j,ans,INT_MAX,visited);
+    }
+    
+    
+    cout<<ans<<endl;
+    
+    return 0;
+}

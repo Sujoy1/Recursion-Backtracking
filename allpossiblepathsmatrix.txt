@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define R 2
+#define C 3
+
+void findLongestPath(int mat[R][C],int x,int y,int p,int q,vector<vector<bool>>& visited,string asf){
+    
+    if(x==p&&y==q){
+      cout<<asf<<endl;
+        return;
+    }
+    if(x<0||x==R||y<0||y==C)
+    return;
+    
+    if(visited[x][y])
+    return;
+    
+     if(mat[x][y]==0)
+    return;
+    
+    visited[x][y]=true;
+    
+    findLongestPath(mat,x+1,y,p,q,visited,asf+to_string(mat[x][y]));
+   // findLongestPath(mat,x-1,y,p,q,visited,asf+to_string(mat[x][y]));
+    findLongestPath(mat,x,y+1,p,q,visited,asf+to_string(mat[x][y]));
+   // findLongestPath(mat,x,y-1,p,q,visited,asf+to_string(mat[x][y]));
+    
+    visited[x][y]=false;
+    return;
+}
+
+int main()
+{
+ int mat[2][3] = { {1, 2, 3}, {4, 5, 6} };
+ 
+ 
+    vector<bool> v;
+    vector<vector<bool>> visited;
+    v.assign(C,false);
+    visited.assign(R,v);
+    
+   
+    findLongestPath(mat, 0, 0, 2,2,visited,"");
+   
+ 
+    return 0;
+}

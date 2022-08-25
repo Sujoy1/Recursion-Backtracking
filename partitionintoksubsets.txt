@@ -1,0 +1,49 @@
+ void solve(int a[], int n,vector<vector<int>> v,int curr,int k,bool& ans){
+        if(curr==n){
+            
+            int sum=0,f=0;
+           
+            for(auto ele : v[0])
+            {
+               
+                sum+=ele;
+            }
+            for(auto ele : v)
+            {
+                int sum1=0;
+                for(auto e : ele)
+            {
+               
+                sum1+=e;
+            }
+            if(sum1!=sum){
+                f=1;
+                break;
+            }
+            }
+            if(f==0)
+            ans=true;
+            
+            return;
+        }
+        
+        vector<vector<int>> temp = v;
+        
+        for(int i=0;i<k;i++){
+            temp=v;
+            temp[i].push_back(a[curr]);
+            solve(a,n,temp,curr+1,k,ans);
+        }
+    }
+    
+    bool isKPartitionPossible(int a[], int n, int k)
+    {
+         //Your code here
+         vector<vector<int>> v;
+        
+         bool ans=false;
+         
+         solve(a,n,v,0,k,ans);
+         
+         return ans;
+    }
